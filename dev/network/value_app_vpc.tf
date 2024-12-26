@@ -1,5 +1,5 @@
 locals {
-  dmz_vpc = {
+  app_vpc = {
     vpc = {
       tf_identifier = "api-d-app-01"
       name          = "ww-an2-vpc-api-d-app-01"
@@ -23,14 +23,14 @@ locals {
       {
         tf_identifier               = "api-d-app-lb-2a"
         name                        = "ww-an2-sbn-api-d-app-lb-2a"
-        cidr_block                  = "10.4.0.160/27"
+        cidr_block                  = "10.4.0.160/28"
         availability_zone           = "ap-northeast-2a"
         asso_route_table_identifier = "api-d-app-lb"
       },
       {
         tf_identifier               = "api-d-app-lb-2c"
         name                        = "ww-an2-sbn-api-d-app-lb-2c"
-        cidr_block                  = "10.4.0.176/27"
+        cidr_block                  = "10.4.0.176/28"
         availability_zone           = "ap-northeast-2c"
         asso_route_table_identifier = "api-d-app-lb"
       },

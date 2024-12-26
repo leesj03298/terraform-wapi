@@ -1,5 +1,5 @@
 locals {
-  app_vpc = {
+  dmz_vpc = {
     vpc = {
       tf_identifier = "api-d-dmz-01"
       name          = "ww-an2-vpc-api-d-dmz-01"
