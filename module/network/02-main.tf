@@ -10,7 +10,7 @@ resource "aws_vpc" "default" {
 
 #### Subnet ################################################################################
 resource "aws_subnet" "default" {
-  for_each                = { for sbn in var.subnets : sbn.tf_identify => sbn }
+  for_each                = { for sbn in var.subnets : sbn.tf_identifier => sbn }
   vpc_id                  = aws_vpc.default.id
   cidr_block              = each.value.cidr_block
   availability_zone       = each.value.availability_zone
@@ -25,7 +25,7 @@ locals {
 }
 #### Route Table ###########################################################################
 resource "aws_route_table" "default" {
-  for_each = { for rtb in var.route_tables : rtb.tf_identify => rtb }
+  for_each = { for rtb in var.route_tables : rtb.tf_identifier => rtb }
   vpc_id   = aws_vpc.default.id
   tags = {
     Name = each.value.name
@@ -39,8 +39,8 @@ locals {
 #### Route Table Association ###############################################################
 resource "aws_route_table_association" "drs_route_table_association" {
   for_each       = { for sbn in var.subnets : sbn.name => sbn 
-                    if contains(keys(local.rtb_id), sbn.association_route_table) && contains(keys(local.sbn_id), sbn.subnet_name)}
-  subnet_id      = aws_subnet.default[each.value.tf_identify].id
-  route_table_id = aws_route_table.default[each.value.association_route_table].id
+                    if contains(keys(aws_route_table.default), sbn.asso_route_table_identifier)}
+  subnet_id      = aws_subnet.default[each.value.tf_identifier].id
+  route_table_id = aws_route_table.default[each.value.asso_route_table_identifier].id
   depends_on     = [aws_subnet.default, aws_route_table.default]
 }

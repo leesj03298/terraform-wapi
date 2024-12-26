@@ -1,0 +1,7 @@
+[
+    {
+      "Description": "My Server OVA",
+      "Format": "ova",
+      "Url": "s3://s3-an2-wapi-lsj-temp/Red_Hat_Enterprise_Linux_8.6_64-bit.ova"
+    }
+  ]

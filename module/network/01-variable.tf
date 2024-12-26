@@ -20,7 +20,7 @@ variable "subnets" {
     name                  = optional(string, null)
     availability_zone            = optional(string, null)
     cidr_block                   = optional(string, null)
-    association_route_table_name = optional(string, null)
+    asso_route_table_identifier = optional(string, null)
     tags                         = optional(map(string), null)
   }))
   default = []
@@ -30,8 +30,7 @@ variable "route_tables" {
   description = "Create Resource : aws_route_table"
   type = list(object({
     tf_identifier    = optional(string, null)
-    vpc_name         = optional(string, null)
-    route_table_name = optional(string, null)
+    name = optional(string, null)
     tags             = optional(map(string), null)
   }))
   default = []
