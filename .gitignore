@@ -1,0 +1,6 @@
+terraform-provider-aws_v5.82.2_x5.exe
+LICENSE.txt
+modules.json
+terraform.tfstate.backup
+terraform.tfstate
+.terraform.lock.hcl
