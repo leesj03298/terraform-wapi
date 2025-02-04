@@ -1,11 +1,11 @@
 locals {
   #### TARGET_GROUP_ATTACHMENT_LIST : aws_lb_target_group_attachment List
   EBS_BLOCK_LIST = flatten([for ec2_instance in var.ec2 : [
-    for ebs_block in ec2_instance.ebs_block_device : merge(ebs_block, {
-      "ec2_name"          = ec2_instance.ec2_name
+    for ebs_block in ec2_instance.ebs_block_devices : merge(ebs_block, {
+      "ec2_identifier"          = ec2_instance.tf_identifier
       "availability_zone" = ec2_instance.subnet_name
     })
-  ] if ec2_instance.ebs_block_device != null])
+  ] if ec2_instance.ebs_block_devices != null])
 
   subnet_names_optimze        = distinct(var.ec2[*].subnet_name)
   security_group_name_optimze = distinct(flatten(var.ec2[*].security_group_names))
@@ -55,7 +55,7 @@ resource "aws_instance" "default" {
 
 #### EBS ########################################################################################################################
 resource "aws_ebs_volume" "default" {
-  for_each          = { for EBS_BLOCK_LIST in local.EBS_BLOCK_LIST : "${EBS_BLOCK_LIST.EC2_instance_identifier}_${EBS_BLOCK_LIST.ebs_block[0]}" => EBS_BLOCK_LIST }
+  for_each          = { for EBS_BLOCK_LIST in local.EBS_BLOCK_LIST : "${EBS_BLOCK_LIST.ec2_identifier}_${EBS_BLOCK_LIST.ebs_block[0]}" => EBS_BLOCK_LIST }
   availability_zone = data.aws_subnet.default[each.value.availability_zone].availability_zone
   type              = each.value.ebs_block[1]
   size              = each.value.ebs_block[2]
@@ -66,10 +66,10 @@ resource "aws_ebs_volume" "default" {
 }
 
 resource "aws_volume_attachment" "default" {
-  for_each    = { for EBS_BLOCK_LIST in local.EBS_BLOCK_LIST : "${EBS_BLOCK_LIST.EC2_instance_identifier}_${EBS_BLOCK_LIST.ebs_block[0]}" => EBS_BLOCK_LIST }
+  for_each    = { for EBS_BLOCK_LIST in local.EBS_BLOCK_LIST : "${EBS_BLOCK_LIST.ec2_identifier}_${EBS_BLOCK_LIST.ebs_block[0]}" => EBS_BLOCK_LIST }
   device_name = each.value.ebs_block[0]
   volume_id   = aws_ebs_volume.default[each.key].id
-  instance_id = aws_instance.default[each.value.ec2_name].id
+  instance_id = aws_instance.default[each.value.ec2_identifier].id
 }
 
 #### EIP ########################################################################################################################

@@ -32,7 +32,7 @@ variable "ec2" {
     public_ip            = optional(bool, false)
     private_ip           = optional(string, null)
     root_block_device    = optional(list(any), null)
-    ebs_block_device = optional(list(object({
+    ebs_block_devices = optional(list(object({
       ebs_block             = list(any)
       delete_on_termination = optional(bool, true)
       ebs_device_encrypted  = map(string)

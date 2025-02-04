@@ -12,3 +12,9 @@ output "ec2_eip" {
   description = "The Public IP of the EC2 Instance"
   value       = { for key, ec2 in aws_eip.default : key => ec2.public_ip }
 }
+
+output "ec2" {
+  description = "The Public IP of the EC2 Instance"
+  value       = { for key, ec2 in aws_instance.default : key => ec2 }
+}
+
