@@ -1,5 +1,5 @@
 provider "aws" {
-  profile = "seungjun-terraform"
+  profile = "WW-API-T"
   default_tags {
     ## Application = "TA 시스템 코드"
     ## Environment = "Prd, Dr, Test, Dev"
@@ -8,10 +8,10 @@ provider "aws" {
     ## Backup = "None, Daily, Weekly, Monthly"
     tags = {
       Application = "api",
-      Environment = "Prd",
+      Environment = "Dev",
       Creator     = "",
       Owner       = "",
-      Backup      = "Daily"
+      Backup      = ""
     }
   }
 }
